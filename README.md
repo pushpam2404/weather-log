@@ -2,6 +2,10 @@
 
 A full-stack weather app. Search any place for live weather and a 5-day forecast, then save a place with a date range to a shared SQLite database. Each saved record gets a map, YouTube videos, and exports in five formats.
 
+**Live:** https://weather-log-mu.vercel.app
+
+The hosted version stores data in SQLite under `/tmp`, so saved lookups can disappear when the server restarts. Run it locally to keep data in `server/data/weather.db`.
+
 I completed **both** assessments from the PM Accelerator AI Engineer Intern brief:
 
 - **Tech Assessment 1 (frontend):** live weather, current location, 5-day forecast, icons, error handling, responsive layout.
