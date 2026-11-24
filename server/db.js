@@ -3,10 +3,17 @@ import { mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const dir = join(dirname(fileURLToPath(import.meta.url)), 'data');
-mkdirSync(dir, { recursive: true });
+// The Vercel deploy folder is read-only. /tmp is writable but wiped when the function restarts.
+let file = process.env.DB_PATH;
+if (!file && process.env.VERCEL) {
+  file = '/tmp/weather.db';
+} else if (!file) {
+  const dir = join(dirname(fileURLToPath(import.meta.url)), 'data');
+  mkdirSync(dir, { recursive: true });
+  file = join(dir, 'weather.db');
+}
 
-const db = new DatabaseSync(process.env.DB_PATH || join(dir, 'weather.db'));
+const db = new DatabaseSync(file);
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS weather_queries (

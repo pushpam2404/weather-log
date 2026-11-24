@@ -26,5 +26,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong on the server.' });
 });
 
-const port = process.env.PORT || 3001;
-app.listen(port, () => console.log(`API on http://localhost:${port}`));
+// Vercel runs the exported app as a function and does not need a port.
+if (!process.env.VERCEL) {
+  const port = process.env.PORT || 3001;
+  app.listen(port, () => console.log(`API on http://localhost:${port}`));
+}
+
+export default app;
