@@ -1,4 +1,4 @@
-import { HttpError, isoDay } from '../validate.js';
+import { HttpError, isoDay, validateText } from '../validate.js';
 
 const GEOCODING = 'https://geocoding-api.open-meteo.com/v1/search';
 const FORECAST = 'https://api.open-meteo.com/v1/forecast';
@@ -81,6 +81,19 @@ export async function resolveLocation(text) {
     lat: Number(r.lat),
     lon: Number(r.lon),
   };
+}
+
+// Shared by every endpoint that takes ?q=<text> or ?lat=&lon=.
+export async function locationFromQuery({ q, lat, lon }) {
+  if (lat === undefined && lon === undefined) {
+    return resolveLocation(validateText(q, 'Query parameter q (or lat and lon)', 200));
+  }
+  const la = Number(lat);
+  const lo = Number(lon);
+  if (lat === '' || lon === '' || !Number.isFinite(la) || !Number.isFinite(lo)) {
+    throw new HttpError(400, 'lat and lon must both be numbers.');
+  }
+  return fromCoords(la, lo);
 }
 
 const conditions = [

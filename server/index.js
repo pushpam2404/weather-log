@@ -1,6 +1,8 @@
 import express from 'express';
 import weather from './routes/weather.js';
 import queries from './routes/queries.js';
+import extras from './routes/extras.js';
+import exportData from './routes/export.js';
 
 try {
   process.loadEnvFile();
@@ -13,6 +15,8 @@ app.use(express.json());
 
 app.use('/api/weather', weather);
 app.use('/api/queries', queries);
+app.use('/api/extras', extras);
+app.use('/api/export', exportData);
 app.use('/api', (req, res) => res.status(404).json({ error: 'Unknown API route.' }));
 
 app.use((err, req, res, next) => {

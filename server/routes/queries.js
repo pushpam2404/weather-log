@@ -2,6 +2,7 @@ import { Router } from 'express';
 import db from '../db.js';
 import { HttpError, validateRange, validateText } from '../validate.js';
 import { resolveLocation, getRange } from '../services/weather.js';
+import { getExtras } from '../services/extras.js';
 
 const router = Router();
 
@@ -47,6 +48,12 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   res.json(toRecord(findOr404(req.params.id)));
+});
+
+router.get('/:id/extras', async (req, res) => {
+  const row = findOr404(req.params.id);
+  const place = { name: row.city, country: row.country, lat: row.lat, lon: row.lon };
+  res.json({ location: place, ...(await getExtras(place)) });
 });
 
 router.put('/:id', async (req, res) => {
