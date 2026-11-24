@@ -1,0 +1,61 @@
+@import '@fontsource/ibm-plex-sans/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-500.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+  --color-paper: #f4f3ef;
+  --color-card: #ffffff;
+  --color-ink: #17191c;
+  --color-ink-2: #464b52;
+  --color-ink-3: #666c73;
+  --color-line: rgb(23 25 28 / 0.14);
+  --color-accent: #c2410c;
+}
+
+@layer base {
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+  h1, h2, h3 {
+    @apply font-medium;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-line bg-card;
+  }
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center rounded-lg border border-line bg-card px-4 text-sm font-medium text-ink transition-[transform,background-color] hover:bg-paper active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply border-ink bg-ink text-white hover:bg-[#2d3136];
+  }
+  .btn-sm {
+    @apply px-3 sm:min-h-9;
+  }
+  .input {
+    @apply min-h-11 w-full rounded-lg border border-line bg-card px-3 text-base text-ink placeholder:text-ink-3;
+  }
+  .label {
+    @apply mb-1 block text-sm text-ink-2;
+  }
+  .error {
+    @apply rounded-lg border border-[#e3b0a9] bg-[#fdf1ef] px-3 py-2 text-sm text-[#8f1d12];
+  }
+  .num {
+    @apply font-mono tabular-nums;
+  }
+}
+
+dialog::backdrop {
+  background: rgb(23 25 28 / 0.55);
+}
